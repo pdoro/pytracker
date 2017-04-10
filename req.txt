@@ -1,0 +1,82 @@
+* Requisitos
+
+- Debe permitir monitorizar los precios de los productos y mandar un email en caso de que bajen (opcionalmente que suban)
+- Debe permitir añadir nuevos productos que monitorizar mientras se ejecuta
+- Debe permitir poder parar el proceso y arrancarlo de nuevo sin perder toda la informacion
+- Debe permitir monitorizar productos de multiples webs
+- Debe permitir leer un fichero de productos que monitorizar además de poder registrarlos uno a uno
+- Debe permitir consultar el historico de precios de un producto
+- Debe permitir consultar, añadir y eliminar productos que monitorizar
+- Debe permitir continuar con una ejecucion anterior a partir de los datos guardados anteriormente 
+- (opcional) Debe permitir configurar la frecuencia de consulta de los precios
+- (opcional) Debe permitir enviar correos a multiples usuarios
+- (opcional) Debe mandar correos con una maquetacion y diseño razonables
+- (opcional) Debe permitir visualizar una gráfica con el historico de precios del producto
+
+* No funcional
+
+- Para ahorrar espacio, solo debera almacenar actualizaciones de precios cuando este cambie (en un porcetanje)
+- Si no se puede extraer el precio de un producto deberá mandar un correo para informar
+- Almacenar de forma separada el historico de precios y los productos que se monitorizan.
+- En el fichero de productos que se almacenar guardar datos como id, nombre del producto, url, selector css de precio
+- Permitir obtener un listado de los productos trackeados para modificar 
+- (opcional) poder visualizar una gráfica por linea de comandos
+
+* Necesario
+
+- Libreria para hacer web scrapping -> Scrappy
+- Libreria para buscar datos en html??? -> beautiful soup?
+- Libreria para almacenar y leer datos en formato csv
+- Libreria para gestionar CLI
+
+------------------------------------------------------------------------------------------------------------------
+
+Entidades:
+
+TrackedProduct <- cargar desde csv de productos trackeados
+	- id
+	- name -> nombre del producto
+	- url -> url que consultar
+	- price_selector -> selector css del producto
+	- notification_triger -> trigger por el cual se ejecutaran las notifiaciones
+	- emailsToNotify -> emails que notificar
+	- monitorInterval -> intervalo de consulta en segundos
+	- OrderedList<PriceVariation>
+
+PriceVariation
+	- date
+	- previousPrice
+	- currentPrice
+
+Cargar PriceVariation desde csv.
+
+dumpToCSV -> List<TrackedProduct> a CSV's (trackedProducts.csv y historicalData.csv)
+loadFromCSV -> operacion inversa
+
+---------------------------------------------------------
+
+Formato JSON (cofiguracion productos)
+
+id, name, url, price_selector, triggers, emailsToNotify, monitorInterval
+
+trigger -> [-5%, +10%, <15, >=23]
+emailsToNotify -> ["@", "@", "@"]
+monitorInterval : 458798 (secs)
+
+Formato CSV (historico datos)
+
+id, date, price
+
+7, 09/03/2017 13:32:08, 32€
+
+
+
+
+
+
+
+
+
+
+
+
